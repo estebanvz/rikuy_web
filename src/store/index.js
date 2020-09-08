@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     session: {
-      url: "http://localhost:3000/api",
+      url: "https://api.rikuy.eyachay.com/api",
       user: {},
       token: "",
     },
@@ -23,9 +23,9 @@ export default new Vuex.Store({
       step: 50,
       common: [100, 300, 500],
     },
-    currentExam:{
-      score:0.0,
-      total:0.0
+    currentExam: {
+      score: 0.0,
+      total: 0.0,
     },
     currentText: {
       id: 1,
