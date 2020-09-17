@@ -53,11 +53,17 @@ export default {
   },
   methods: {
     next() {
-      APIabstract(this.$store.state.currentText.id, this.abstract).finally(
-        () => {
+      APIabstract(this.$store.state.currentExam.id, this.abstract)
+        .then((e) => {
+          console.log("ASD:",e);
+          if (e.data != undefined) {
+            this.$store.commit("setExam", e.data);
+          }
+        })
+        .finally(() => {
           this.$emit("next");
-        }
-      );
+          this.abstract = "";
+        });
     },
     getQuestions() {
       this.examKey += 1;

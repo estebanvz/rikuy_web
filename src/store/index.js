@@ -8,6 +8,7 @@ export default new Vuex.Store({
     language: "po",
     session: {
       url: "https://api.rikuy.eyachay.com/api",
+      // url: "http://localhost:3000/api",
       user: {},
       token: "",
     },

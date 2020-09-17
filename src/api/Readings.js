@@ -60,11 +60,12 @@ export function APIfinalizar() {
     );
   }
 }
-export function APIcolaboration(text) {
+export function APIcolaboration(reading,questions) {
   return axios.post(
-    store.state.session.url + "/text",
+    store.state.session.url + "/readings",
     {
-      text:text
+      reading:reading,
+      questions:questions,
     },
     { headers: { Authorization: "Bearer " + store.state.session.token } }
   );

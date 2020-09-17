@@ -28,7 +28,7 @@
           <b-field label="Abstract" label-position="on-border">
             <b-input
               v-model="abstract"
-              maxlength="2000"
+              maxlength="500"
               type="textarea"
             ></b-input>
           </b-field>
@@ -115,17 +115,17 @@ export default {
   methods: {
     sendText() {
       this.loading = true;
-      let text = {
+      let reading = {
         text: this.text,
         abstract: this.abstract,
-        nivel: this.nivel,
+        level: this.nivel,
         language: this.language,
         author: this.author,
         link: this.link,
         title: this.title,
-        questions: this.questions,
+        words: this.text.split(" ").length
       };
-      APIcolaboration(text)
+      APIcolaboration(reading, this.questions)
         .then(() => {
           this.loading = false;
           this.thanks();

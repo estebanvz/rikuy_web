@@ -14,9 +14,9 @@
           class="buttons is-centered"
         >
           <b-button @click="showRegister = true" type="is-info"
-            >Regístrate</b-button
+            >{{text.register}}</b-button
           >
-          <b-button @click="showLogin = true" type="is-info">Ingresar</b-button>
+          <b-button @click="showLogin = true" type="is-info">{{text.login}}</b-button>
         </div>
         <b-modal
           v-model="showRegister"
@@ -67,12 +67,14 @@
               </div>
             </div> -->
             <div class="content">
-              {{ text.comprehension }}:
+              {{ text.comprehension }} (
+              {{ $store.state.currentExam.time }} seg. ):
               <b-progress
                 :value="
                   ($store.state.currentExam.score /
                     $store.state.currentExam.total) *
-                  100
+                    100 -
+                  $store.state.currentExam.time / 30
                 "
                 show-value
                 format="percent"
@@ -81,7 +83,8 @@
                   (
                     ($store.state.currentExam.score /
                       $store.state.currentExam.total) *
-                    100
+                      100 -
+                    $store.state.currentExam.time / 30
                   ).toFixed(0)
                 }}
                 % / 100 %

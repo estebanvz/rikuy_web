@@ -1,5 +1,33 @@
 <template>
   <div class="columns is-multiline is-centered">
+    <div class="column is-4">
+      <div class="card">
+        <div class="card-content">
+          <div class="media mb-1">
+            <div class="media-content">
+              <!-- <p class="title is-5 has-text-centered is-uppercase mb-0">{{ reading.title }}</p> -->
+              <b-button
+                @click="setCustomText()"
+                type="is-info is-uppercase mb-1"
+                expanded
+                focused
+              >
+                Personalizado
+              </b-button>
+            </div>
+          </div>
+          <div class="content mb-2">
+            <b-field>
+              <b-input
+                v-model="customText"
+                maxlength="10000"
+                type="textarea"
+              ></b-input>
+            </b-field>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="column is-4"
       @click="setText(reading)"
@@ -29,30 +57,6 @@
         </div>
       </div>
     </div>
-    <div class="column is-4">
-      <div class="card">
-        <div class="card-content">
-          <div class="media mb-1">
-            <div class="media-content">
-              <!-- <p class="title is-5 has-text-centered is-uppercase mb-0">{{ reading.title }}</p> -->
-              <b-button
-                @click="setCustomText()"
-                type="is-info is-uppercase mb-1"
-                expanded
-                focused
-              >
-                Personalizado
-              </b-button>
-            </div>
-          </div>
-          <div class="content mb-2">
-            <b-field>
-              <b-input v-model="customText" maxlength="10000" type="textarea"></b-input>
-            </b-field>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -62,7 +66,7 @@ export default {
   data() {
     return {
       readings: [],
-      customText: ""
+      customText: "",
     };
   },
   beforeMount() {

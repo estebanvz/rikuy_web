@@ -6,20 +6,20 @@
         <button type="button" class="delete" @click="$emit('close')" />
       </header>
       <section class="modal-card-body">
-        <b-field label="Nombres">
+        <b-field label="Nombre\Nome\Names">
           <b-input
             type="text"
             v-model="name"
-            placeholder="Tus nombres"
+            placeholder="Nombre"
             required
           >
           </b-input>
         </b-field>
-        <b-field label="Apellidos">
+        <b-field label="Apellido\Sobrenome\Last name">
           <b-input
             type="text"
             v-model="lastname"
-            placeholder="Tus apellidos"
+            placeholder="pellido"
             required
           >
           </b-input>
@@ -39,7 +39,7 @@
             type="password"
             v-model="password"
             password-reveal
-            placeholder="Your password"
+            placeholder="Password"
             required
           >
           </b-input>
@@ -60,7 +60,7 @@
         <!-- <button class="button" type="button" @click="$emit('close')">
           Cerrar
         </button> -->
-        <b-button @click="register()" class="button is-info">Registro</b-button>
+        <b-button @click="register()" class="button is-info" icon-left="check"> OK </b-button>
       </footer>
     </div>
   </div>
