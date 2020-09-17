@@ -47,7 +47,7 @@
           </div>
           <div class="content mb-2">
             <b-field>
-              <b-input v-model="customText" maxlength="200" type="textarea"></b-input>
+              <b-input v-model="customText" maxlength="10000" type="textarea"></b-input>
             </b-field>
           </div>
         </div>
