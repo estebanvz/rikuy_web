@@ -44,6 +44,11 @@ export function APIquestion(id, time, user_answer) {
     user_answer: user_answer,
   });
 }
+export function APIabstract(id, abstract) {
+  return axios.put(store.state.session.url + "/abstract/" + id, {
+    abstract: abstract,
+  });
+}
 export function APIfinalizar() {
   if (store.state.session.token != "") {
     return axios.get(store.state.session.url + "/test");
@@ -54,4 +59,13 @@ export function APIfinalizar() {
       { headers: { Authorization: "Bearer " + store.state.session.token } }
     );
   }
+}
+export function APIcolaboration(text) {
+  return axios.post(
+    store.state.session.url + "/text",
+    {
+      text:text
+    },
+    { headers: { Authorization: "Bearer " + store.state.session.token } }
+  );
 }

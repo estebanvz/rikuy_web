@@ -1,18 +1,20 @@
 <template>
   <div class="exam" :key="examKey">
-    <br />
-    <br />
+    <b-loading
+      :is-full-page="true"
+      v-model="loading"
+      :can-cancel="true"
+    ></b-loading>
+    <b-field :label="text.resume" label-position="on-border" type="is-success">
+      <b-input v-model="abstract" maxlength="1000" type="textarea"></b-input>
+    </b-field>
+
     <div v-for="(q, i) in questions" :key="i + examKey">
       <quest-a :question="q"></quest-a>
       <hr />
-      <b-loading
-        :is-full-page="false"
-        v-model="loading"
-        :can-cancel="true"
-      ></b-loading>
     </div>
     <div class="buttons is-centered">
-      <b-button class="is-info" @click="next()"> Finalizar </b-button>
+      <b-button class="is-info" @click="next()"> {{ text.end }} </b-button>
     </div>
   </div>
 </template>
@@ -24,7 +26,7 @@
 </style>
 <script>
 import QuestA from "../components/QuestA.vue";
-import { APIstartTest } from "../api/Readings";
+import { APIabstract, APIstartTest } from "../api/Readings";
 export default {
   components: {
     QuestA,
@@ -35,16 +37,34 @@ export default {
       id: null,
       questions: [],
       loading: false,
+      text: {},
+      abstract: "",
     };
+  },
+  beforeMount() {
+    if (this.$store.state.language == "es") {
+      this.text.end = "Finalizar";
+      this.text.resume = "Escribe un pequeño resumen (Opcional)";
+    }
+    if (this.$store.state.language == "po") {
+      this.text.end = "Avaliação";
+      this.text.resume = "Escreva um breve resumo (Opcional)";
+    }
   },
   methods: {
     next() {
-      this.$emit("next");
+      APIabstract(this.$store.state.currentText.id, this.abstract).finally(
+        () => {
+          this.$emit("next");
+        }
+      );
     },
     getQuestions() {
       this.examKey += 1;
       this.id = this.$store.state.currentText.id;
       this.loading = true;
+      this.questions = [];
+
       APIstartTest(this.id, this.$store.state.config).then((e) => {
         console.log(e);
         if (e.data != undefined) {

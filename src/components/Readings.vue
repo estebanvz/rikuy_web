@@ -29,6 +29,30 @@
         </div>
       </div>
     </div>
+    <div class="column is-4">
+      <div class="card">
+        <div class="card-content">
+          <div class="media mb-1">
+            <div class="media-content">
+              <!-- <p class="title is-5 has-text-centered is-uppercase mb-0">{{ reading.title }}</p> -->
+              <b-button
+                @click="setCustomText()"
+                type="is-info is-uppercase mb-1"
+                expanded
+                focused
+              >
+                Personalizado
+              </b-button>
+            </div>
+          </div>
+          <div class="content mb-2">
+            <b-field>
+              <b-input v-model="customText" maxlength="200" type="textarea"></b-input>
+            </b-field>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,6 +62,7 @@ export default {
   data() {
     return {
       readings: [],
+      customText: ""
     };
   },
   beforeMount() {
@@ -52,6 +77,21 @@ export default {
   methods: {
     setText(text) {
       this.$store.commit("setText", text);
+      this.$emit("next");
+    },
+    setCustomText() {
+      let t = {
+        id: null,
+        title: "",
+        author: "",
+        text: this.customText,
+        abstract: "",
+        topic: "",
+        level: "",
+        complexity: "",
+        words: "",
+      };
+      this.$store.commit("setText", t);
       this.$emit("next");
     },
   },

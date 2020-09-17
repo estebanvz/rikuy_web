@@ -56,6 +56,7 @@ export default {
       isLoading: false,
       answered: false,
       correct: null,
+      timer: null
     };
   },
   methods: {

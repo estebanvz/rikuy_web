@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    language: "po",
     session: {
       url: "https://api.rikuy.eyachay.com/api",
       user: {},

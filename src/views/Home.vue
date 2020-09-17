@@ -4,16 +4,16 @@
       <div class="card article">
         <div class="card-content">
           <p class="title article-title pb-5">
-            RIKUY: Plataforma de lectura veloz
+            RIKUY: {{text.title}}
           </p>
 
           <p>
-            Rikuy es una plataforma que busca mejorar la velocidad de lectura
-            usando inteligencia artificial. Este utiliza una técnicas avanzadas
-            de lectura y exámenes para mejorar la comprensión lectora.
+            {{text.resume}}
           </p>
           <router-link to="/read"
-            >Para practicar clic en el boton leer o aquí.</router-link
+            >
+            {{text.link}}
+            </router-link
           >
           <div
             v-show="this.$store.state.session.token != ''"
@@ -65,7 +65,7 @@
                               type="is-primary"
                               expanded
                               @click="$router.push('/read')"
-                              >Juguemos</b-button
+                              >{{text.again}}</b-button
                             >
                           </div>
                         </div>
@@ -108,12 +108,12 @@
                       </b-field>
                       <div class="buttons">
                         <b-button @click="login()" type="is-primary"
-                          >Ingresar</b-button
+                          >{{text.login}}</b-button
                         >
                         <b-button
                           type="is-primary is-light"
                           @click="showRegister = true"
-                          >Registrarme</b-button
+                          >{{text.register}}</b-button
                         >
                       </div>
                     </div>
@@ -154,7 +154,39 @@ export default {
   components: {
     Register,
   },
-  beforeMount() {},
+  beforeMount() {
+    if (this.$store.state.language == "es") {
+      this.text.resume=`Rikuy es una plataforma que busca mejorar la velocidad de lectura usando inteligencia artificial. Este utiliza una técnicas avanzadas de lectura y exámenes para mejorar la comprensión lectora.`
+      this.text.link=`Para practicar clic en el boton leer o aquí.`,
+      this.text.comprehension = "Comprensión";
+      this.text.speed = "Velocidad";
+      this.text.ppm = "Palabras por minuto";
+      this.text.speedTime = "Velocidad de lectura por fecha";
+      this.text.you = "Tu";
+      this.text.others = "Otros";
+      this.text.comprehensionSpeed = "Comprensión vs velocidad";
+      this.text.again = "Juguemos de nuevo";
+      this.text.login = "Ingresa";
+      this.text.register = "Regístrate";
+      this.text.title="Plataforma de lectura rápida"
+    }
+    if (this.$store.state.language == "po") {
+      this.text.resume=`
+Rikuy é uma plataforma que visa melhorar a velocidade de leitura usando inteligência artificial. Ele usa técnicas avançadas de leitura e teste para melhorar a compreensão da leitura.`,
+this.text.link=`Para praticar clique no menu ler ou aqui.`,
+      this.text.comprehension = "Compreensão";
+      this.text.speed = "Rapidez";
+      this.text.ppm = "Palavras por minuto";
+      this.text.speedTime = "Velocidade de leitura por data";
+      this.text.you = "Você";
+      this.text.others = "Outros";
+      this.text.comprehensionSpeed = "Compreensão vs rapidez";
+      this.text.again = "Jogar de novo";
+      this.text.login = "Conecte-se";
+      this.text.register = "Inscrever-se";
+      this.text.title="Plataforma de leitura rápida"
+    }
+  },
   mounted() {
     APIuser().then((e) => {
       console.log(e);
@@ -200,7 +232,7 @@ export default {
           labels: this.dateSpeed,
           datasets: [
             {
-              label: "Tu Velocidad de Lectura",
+              label: this.text.you,
               data: this.myspeed,
               backgroundColor: "rgba(0,125,125,0.5)",
             },
@@ -209,7 +241,7 @@ export default {
         options: {
           title: {
             display: true,
-            text: "Velocidad de lectura vs Fecha",
+            text: this.text.speedTime,
           },
           scales: {
             yAxes: [
@@ -231,14 +263,14 @@ export default {
         data: {
           datasets: [
             {
-              label: "Todos los Intentos",
-              data: this.dataComprehension,
-              backgroundColor: "rgb(125,125,125)",
-            },
-            {
-              label: "Tus intentos",
+              label: this.text.you,
               data: this.mydataComprehension,
               backgroundColor: "rgb(0,125,125)",
+            },
+            {
+              label: this.text.others,
+              data: this.dataComprehension,
+              backgroundColor: "rgb(125,125,125)",
             },
           ],
         },
@@ -247,9 +279,9 @@ export default {
             callbacks: {
               label: function (tooltipItem) {
                 return (
-                  "Comprensión " +
+                  this.text.comprehension +
                   tooltipItem.yLabel +
-                  "% Velocidad " +
+                  "% "+this.text.speed +
                   tooltipItem.xLabel +
                   " ppm"
                 );
@@ -258,7 +290,7 @@ export default {
           },
           title: {
             display: true,
-            text: "Comprensión vs Velocidad",
+            text: this.text.comprehensionSpeed,
           },
           scales: {
             yAxes: [
@@ -295,6 +327,7 @@ export default {
       dataComprehension: [],
       mydataComprehension: [],
       myspeed: [],
+      text:{},
       dateSpeed: [],
     };
   },

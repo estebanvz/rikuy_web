@@ -28,10 +28,10 @@
           </div>
         </section>
         <section v-else class="blockText">
-          <b-button @click="start" type="is-success">START</b-button>
+          <b-button @click="start" type="is-success">{{text.play}}</b-button>
         </section>
         <section class="pt-3">
-          <b-button @click="next" type="is-warning">PREGUNTAS</b-button>
+          <b-button @click="next" type="is-warning" :disabled="$store.state.currentText.id==null">{{text.exam}}</b-button>
         </section>
       </div>
     </div>
@@ -102,7 +102,18 @@ export default {
       playing: false,
       texto: this.$store.state.currentText.text,
       config: this.$store.state.config,
+      text:{}
     };
+  },
+  beforeMount(){
+    if(this.$store.state.language=="es"){
+      this.text.play="Comenzar"
+      this.text.exam="Preguntas"
+    }
+    if(this.$store.state.language=="po"){
+      this.text.play="Començar"
+      this.text.exam="Questões"
+    }
   },
   beforeDestroy() {
     this.resetInterval();
@@ -121,6 +132,7 @@ export default {
     resetInterval() {
       this.playing = false;
       this.currentIndex = 0;
+      this.currentWords = [];
       clearInterval(this.timer);
     },
     changeInterval() {
