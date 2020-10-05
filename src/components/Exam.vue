@@ -14,7 +14,9 @@
       <hr />
     </div>
     <div class="buttons is-centered">
-      <b-button class="is-info" @click="next()"> {{ text.end }} </b-button>
+      <b-button class="is-info" @click="next()" :loading="sending">
+        {{ text.end }}
+      </b-button>
     </div>
   </div>
 </template>
@@ -39,6 +41,7 @@ export default {
       loading: false,
       text: {},
       abstract: "",
+      sending: false,
     };
   },
   beforeMount() {
@@ -53,9 +56,10 @@ export default {
   },
   methods: {
     next() {
+      this.sending=true
       APIabstract(this.$store.state.currentExam.id, this.abstract)
         .then((e) => {
-          console.log("ASD:",e);
+          console.log("ASD:", e);
           if (e.data != undefined) {
             this.$store.commit("setExam", e.data);
           }
@@ -63,6 +67,7 @@ export default {
         .finally(() => {
           this.$emit("next");
           this.abstract = "";
+          this.sending=false;
         });
     },
     getQuestions() {
@@ -70,11 +75,12 @@ export default {
       this.id = this.$store.state.currentText.id;
       this.loading = true;
       this.questions = [];
-
+      this.sending = false;
       APIstartTest(this.id, this.$store.state.config).then((e) => {
         console.log(e);
         if (e.data != undefined) {
           this.$store.commit("setExam", e.data.exam);
+          // this.$store.state.currentExam = e.data.exam;
           this.questions = e.data.questions;
           this.questions.forEach((element) => {
             element.question.answers = JSON.parse(element.question.answers);

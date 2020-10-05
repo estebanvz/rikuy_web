@@ -8,11 +8,11 @@
               <div v-for="(words, i) in currentWords" :key="i">
                 <div
                   v-bind:class="{
-                    words1: config.nWords==1,
-                    words2: config.nWords==2,
-                    words3: config.nWords==3,
-                    words4: config.nWords==4,
-                    words5: config.nWords==5,
+                    words1: config.nWords == 1,
+                    words2: config.nWords == 2,
+                    words3: config.nWords == 3,
+                    words4: config.nWords == 4,
+                    words5: config.nWords == 5,
                     halfText: config.split,
                     twoLines: config.nLines > 3 && config.nLines < 5,
                     fiveLines: config.nLines == 5,
@@ -28,10 +28,24 @@
           </div>
         </section>
         <section v-else class="blockText">
-          <b-button @click="start" type="is-success">{{text.play}}</b-button>
+          <b-button @click="start" type="is-success" class="mr-1">{{
+            text.play
+          }}</b-button>
+          <b-button
+          v-if="first"
+            @click="next"
+            type="is-info"
+            :disabled="$store.state.currentText.id == null"
+            >{{ text.exam }}</b-button
+          >
         </section>
         <section class="pt-3">
-          <b-button @click="next" type="is-warning" :disabled="$store.state.currentText.id==null">{{text.exam}}</b-button>
+          <b-button
+            @click="next"
+            type="is-info"
+            :disabled="$store.state.currentText.id == null"
+            >{{ text.exam }}</b-button
+          >
         </section>
       </div>
     </div>
@@ -50,7 +64,7 @@
   line-height: 1em;
 }
 .words2 {
-  font-size: 2.0em;
+  font-size: 2em;
   line-height: 1em;
 }
 .words3 {
@@ -102,17 +116,18 @@ export default {
       playing: false,
       texto: this.$store.state.currentText.text,
       config: this.$store.state.config,
-      text:{}
+      text: {},
+      first: false,
     };
   },
-  beforeMount(){
-    if(this.$store.state.language=="es"){
-      this.text.play="Comenzar"
-      this.text.exam="Preguntas"
+  beforeMount() {
+    if (this.$store.state.language == "es") {
+      this.text.play = "Comenzar";
+      this.text.exam = "Preguntas";
     }
-    if(this.$store.state.language=="po"){
-      this.text.play="Començar"
-      this.text.exam="Questões"
+    if (this.$store.state.language == "po") {
+      this.text.play = "Començar";
+      this.text.exam = "Questões";
     }
   },
   beforeDestroy() {
@@ -123,6 +138,7 @@ export default {
       this.$emit("next");
     },
     start() {
+      this.first = true;
       (this.texto = this.$store.state.currentText.text), (this.playing = true);
       this.config = this.$store.state.config;
 
@@ -132,6 +148,7 @@ export default {
     resetInterval() {
       this.playing = false;
       this.currentIndex = 0;
+      this.first = false;
       this.currentWords = [];
       clearInterval(this.timer);
     },

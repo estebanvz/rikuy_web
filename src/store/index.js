@@ -122,6 +122,7 @@ export default new Vuex.Store({
       state.currentText = text;
     },
     setExam(state, exam) {
+      state.currentExam.id = exam.id;
       state.currentExam = exam;
     },
     setToken(state, token) {
